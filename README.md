@@ -73,7 +73,7 @@ All in Python3:
 * Use the images (/images), annotations (/images/knots_info.json), and segmentation masks (/image_masks) as training data for your project
 
 ### Contributing 
-* If you have any features you'd like to see added or would like to contribute yourself please let us know or contact [Priya Sundaresan](mailto:priya.sundaresan@berkeley.edu?subject=[GitHub]%20Blender%20Rope%20Simulation) 
+* If you have any features you'd like to see added or would like to contribute yourself please let us know or contact [Priya Sundaresan](http://priya.sundaresan.us) at priya.sundaresan@berkeley.edu or Jennifer Grannen at jenngrannen@berkeley.edu
 * In particular, some things we would love help with are:
  * Adding support for more rope rigs (currently we only have a cable rig and a braided rig, though we'd love to see things like chains, etc.)
  * Adding support for domain randomization (color, lighting, texture, etc.)
