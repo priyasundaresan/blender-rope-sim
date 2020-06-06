@@ -40,9 +40,9 @@ All in Python3:
  <img src="https://github.com/priyasundaresan/blender-rope-sim/blob/master/image_masks/000020_visible_mask.png" height="200">
 </p>
 <p float="left">
- <img src="https://github.com/priyasundaresan/blender-rope-sim/blob/master/annotated/000003_annotated.png" height="200">
- <img src="https://github.com/priyasundaresan/blender-rope-sim/blob/master/annotated/000005_annotated.png" height="200">
- <img src="https://github.com/priyasundaresan/blender-rope-sim/blob/master/annotated/000009_annotated.png" height="200">
+ <img src="https://github.com/priyasundaresan/blender-rope-sim/blob/master/annotated/000010_annotated.png" height="200">
+ <img src="https://github.com/priyasundaresan/blender-rope-sim/blob/master/annotated/000015_annotated.png" height="200">
+ <img src="https://github.com/priyasundaresan/blender-rope-sim/blob/master/annotated/000020_annotated.png" height="200">
 </p>
 
 ### Setup
