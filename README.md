@@ -9,6 +9,11 @@
   * `vis.py`: visualizes annotations on rendered images and dumps them into `annotated`
   * `data`: contains the relevant capsule mesh for modelling the rope; can be updated later with other relevant meshes, textures, etc. to model more varieties of rope
 
+* We developed this repo as an extension to our ICRA 2020 paper after realizing the need for an easy-to-use dynamic simulator for deformable objects. If you are interested, please check it out here:
+#### [Learning Rope Manipulation Policies Using Dense Object Descriptors Trained on Synthetic Depth Data](https://sites.google.com/view/ropemanipdescriptors/home)
+Priya Sundaresan, Jennifer Grannen, Brijen Thananjeyan, Ashwin Balakrishna, Michael Laskey, Kevin Stone, Joseph E. Gonzalez, Ken Goldberg
+
+
 ![Knot Gif](knot.gif)
   
 ### Dependencies
@@ -57,3 +62,12 @@ All in Python3:
 * Run `blender -b -P render.py` to produce renderings of the rope in different states
 * Run `python make_vids.py` which will create a video called `output.mp4` visualizing your renderings and the ground truth info; (alternatively run `python mask.py` and `python vis.py` separately)
 * Use the images (/images), annotations (/images/knots_info.json), and segmentation masks (/image_masks) as training data for your project
+
+### Contributing 
+* If you have any features you'd like to see added or would like to contribute yourself please let us know!
+* In particular, some things we would love help with are:
+ * Adding support for more rope rigs (currently we only have a cable rig and a braided rig, though we'd love to see things like chains, etc.)
+ * Adding support for domain randomization (color, lighting, texture, etc.)
+ * Simulating rope with more elasticity (i.e. rubber bands, etc.)
+ * Extending our model of cylinders connected with rigid body constraints to a 2D representation for cloth
+
