@@ -36,7 +36,7 @@ All in Python3:
 * `cd` into the following directory: `/path/to/blender/blender.app/Contents/Resources/2.80/python/bin`
  * Note that your path might look like `/Applications/Blender.app/Contents/Resources/2.82/python/bin` or `$HOME/Downloads/blender-2.80-197661c7334d-linux-glibc224-x86_64/2.80/python/bin` on Linux
 * Once here, you will either see `pip` listed or `python3.7m`
-* Install any dependencies (only `sklearn` for this repository) with `./pip install X` if `pip` is listed in the current directory or `./python3.7m pip install X` if `python3.7m` is listed
+* Install any dependencies (only `scikit-learn` for this repository) with `./pip install X` if `pip` is listed in the current directory or `./python3.7m pip install X` if `python3.7m` is listed
 
 ### Rendering Usage
 * Off-screen rendering: run `blender -b -P render.py` (`-b` signals that the process will run in the background (doesn't launch the Blender app), `-P` signals that you're running a Python script)
