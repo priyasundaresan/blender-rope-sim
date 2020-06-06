@@ -10,8 +10,8 @@
   * `data`: contains the relevant capsule mesh for modelling the rope; can be updated later with other relevant meshes, textures, etc. to model more varieties of rope
 
 * We developed this repo as an extension to our ICRA 2020 paper after realizing the need for an easy-to-use dynamic simulator for deformable objects. If you are interested, please check it out here:
-#### [Learning Rope Manipulation Policies Using Dense Object Descriptors Trained on Synthetic Depth Data](https://sites.google.com/view/ropemanipdescriptors/home)
-Priya Sundaresan, Jennifer Grannen, Brijen Thananjeyan, Ashwin Balakrishna, Michael Laskey, Kevin Stone, Joseph E. Gonzalez, Ken Goldberg
+#### ["Learning Rope Manipulation Policies Using Dense Object Descriptors Trained on Synthetic Depth Data"](https://sites.google.com/view/ropemanipdescriptors/home)
+_Priya Sundaresan, Jennifer Grannen, Brijen Thananjeyan, Ashwin Balakrishna, Michael Laskey, Kevin Stone, Joseph E. Gonzalez, Ken Goldberg_**
 
 
 ![Knot Gif](knot.gif)
