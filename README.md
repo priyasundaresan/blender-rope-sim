@@ -49,9 +49,9 @@ All in Python3:
 * For implementing new things, YouTube Blender tutorials are incredible! Even if they're manual, you can always port the functionality to a script by copying the steps and then converting them to script form by looking at the `Scripting` tab
 
 ### Getting Started/Overview
-Example of tying knots with our rope:
+#### Example of tying knots with our rope:
 * Run `blender -P knots.py`; it will launch the Blender app, then set the playback to the beginning and hit space bar to show the trajectory of how the knot is tied
-Example of off-screen rendering/data generation:
+#### Example of off-screen rendering/data generation:
 * Run `blender -b -P render.py` to produce renderings of the rope in different states
 * Run `python make_vids.py` which will create a video called `output.mp4` visualizing your renderings and the ground truth info; (alternatively run `python mask.py` and `python vis.py` separately)
 * Use the images (/images), annotations (/images/knots_info.json), and segmentation masks (/image_masks) as training data for your project
