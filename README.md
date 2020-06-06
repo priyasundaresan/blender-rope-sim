@@ -8,6 +8,8 @@
   * `render.py`: a script for rendering the rope in different knotted conigurations, taking actions on the rope, and exporting ground truth data (RGB images, depth images, segmentation masks, and pixelwise-annotations)
   * `vis.py`: visualizes annotations on rendered images and dumps them into `annotated`
   * `data`: contains the relevant capsule mesh for modelling the rope; can be updated later with other relevant meshes, textures, etc. to model more varieties of rope
+
+![Knot Gif](knot.gif)
   
 ### Dependencies
 All in Python3:
