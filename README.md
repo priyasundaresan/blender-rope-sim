@@ -73,10 +73,10 @@ All in Python3:
 * Use the images (/images), annotations (/images/knots_info.json), and segmentation masks (/image_masks) as training data for your project
 
 ### Contributing 
-* If you have any features you'd like to see added or would like to contribute yourself please let us know or contact [Priya Sundaresan](http://priya.sundaresan.us) at priya.sundaresan@berkeley.edu or [Jennifer Grannen](http://jenngrannen.com/) at jenngrannen@berkeley.edu
+* If you have any features you'd like to see added or would like to contribute yourself please let us know by contacting [Priya Sundaresan](http://priya.sundaresan.us) at priya.sundaresan@berkeley.edu or [Jennifer Grannen](http://jenngrannen.com/) at jenngrannen@berkeley.edu
 * In particular, some things we would love help with are:
- * Adding support for more rope rigs (currently we only have a cable rig and a braided rig, though we'd love to see things like chains, etc.)
- * Adding support for domain randomization (color, lighting, texture, etc.)
- * Simulating rope with more elasticity (i.e. rubber bands, etc.)
- * Extending our model of cylinders connected with rigid body constraints to a 2D representation for cloth
+  * Adding support for more rope rigs (currently we only have a cable rig and a braided rig, though we'd love to see things like chains, etc.)
+  * Adding support for domain randomization (color, lighting, texture, etc.)
+  * Simulating rope with more elasticity (i.e. rubber bands, etc.)
+  * Extending our model of cylinders connected with rigid body constraints to a 2D representation for cloth
 
