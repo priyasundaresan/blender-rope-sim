@@ -29,7 +29,16 @@ All in Python3:
  <img src="https://github.com/priyasundaresan/blender-rope-sim/blob/master/images/000015_rgb.png" height="200">
  <img src="https://github.com/priyasundaresan/blender-rope-sim/blob/master/images/000020_rgb.png" height="200">
 </p>
-
+<p float="left">
+ <img src="https://github.com/priyasundaresan/blender-rope-sim/blob/master/images_depth/000010_rgb.png" height="200">
+ <img src="https://github.com/priyasundaresan/blender-rope-sim/blob/master/images_depth/000015_rgb.png" height="200">
+ <img src="https://github.com/priyasundaresan/blender-rope-sim/blob/master/images_depth/000020_rgb.png" height="200">
+</p>
+<p float="left">
+ <img src="https://github.com/priyasundaresan/blender-rope-sim/blob/master/image_masks/000010_visible_mask.png" height="200">
+ <img src="https://github.com/priyasundaresan/blender-rope-sim/blob/master/image_masks/000015_visible_mask.png" height="200">
+ <img src="https://github.com/priyasundaresan/blender-rope-sim/blob/master/image_masks/000020_visible_mask.png" height="200">
+</p>
 <p float="left">
  <img src="https://github.com/priyasundaresan/blender-rope-sim/blob/master/annotated/000003_annotated.png" height="200">
  <img src="https://github.com/priyasundaresan/blender-rope-sim/blob/master/annotated/000005_annotated.png" height="200">
