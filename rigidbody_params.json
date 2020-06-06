@@ -1,0 +1,14 @@
+{
+    "segment_radius": 0.25,
+    "segment_friction": 1.0,
+    "linear_damping": 0.55,
+    "angular_damping": 0.55,
+    "num_segments": 50,
+    "segment_mass": 0.05, 
+    "table_size": 50,
+    "chain_len": 5,
+    "chain_scale": 0.4,
+    "engine": "BLENDER_WORKBENCH",
+    "render_width": 640,
+    "render_height": 480
+}
