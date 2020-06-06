@@ -67,8 +67,7 @@ def annotate(frame, mapping, num_annotations, knot_only=True, end_only=False, of
     for i in indices:
         cyl = get_piece("Cylinder", i if i != 0 else -1)
         cyl_verts = list(cyl.data.vertices)
-        #step_size = len(indices)*len(cyl_verts)//num_annotations
-        step_size = 1
+        step_size = len(indices)*len(cyl_verts)//num_annotations
         vertex_coords = [cyl.matrix_world @ v.co for v in cyl_verts][::step_size]
         for i in range(len(vertex_coords)):
             v = vertex_coords[i]
@@ -254,50 +253,6 @@ def reidemeister(params, start_frame,render=False, render_offset=0, annot=True, 
             render_frame(step, render_offset=render_offset, annot=annot, mapping=mapping)
     return end_frame
 
-def random_end_pick_place(params, start_frame, render=False, render_offset=0, annot=True, mapping=None):
-
-    piece = "Cylinder"
-    last = params["num_segments"]-1
-    end1 = get_piece(piece, -1)
-    end2 = get_piece(piece, last)
-
-    dx1 = np.random.uniform(-8,0)
-    dy1 = np.random.uniform(-2,2.1)
-    dz1 = np.random.uniform(4,6)
-    #dz1 = np.random.uniform(0,0)
-
-    dx2 = np.random.uniform(0,5)
-    dy2 = np.random.uniform(-2,2.1)
-    dz2 = np.random.uniform(4,6)
-    #dz2 = np.random.uniform(0,0)
-
-    middle_frame = start_frame+25
-    end_frame = start_frame+50
-    end1_first = random.random() > 0.5
-
-    take_action(end1, middle_frame, (dx1,dy1,dz1))
-    for step in range(start_frame, middle_frame):
-        bpy.context.scene.frame_set(step)
-        # if render and step % render_freq == 0:
-        if render and (abs(step-start_frame) < 5 or abs(step-middle_frame) < 5):
-            render_frame(step, render_offset=render_offset, annot=annot, mapping=mapping)
-        elif render:
-            render_offset += 1
-
-    take_action(end2, end_frame, (dx2,dy2,dz2))
-    toggle_animation(end1, middle_frame, False)
-    toggle_animation(end2, end_frame-10, False)
-
-    for step in range(middle_frame, end_frame+20):
-        bpy.context.scene.frame_set(step)
-
-        if render and end_frame-step < 20 and (abs(step-end_frame) < 2 or abs(step-middle_frame) < 2):
-            render_frame(step, render_offset=render_offset, annot=annot, mapping=mapping)
-        elif render:
-            render_offset += 1
-    # return end_frame, pick, render_offset
-    return end_frame, render_offset
-
 def generate_dataset(params, iters=1, chain=False, render=False):
 
     set_animation_settings(15000)
@@ -338,4 +293,7 @@ if __name__ == '__main__':
     add_camera_light()
     set_render_settings(params["engine"],(params["render_width"],params["render_height"]))
     make_table(params)
+    start = time.time()
     generate_dataset(params, iters=2, render=True)
+    end = time.time()
+    print("Time:", end-start)
