@@ -7,13 +7,14 @@ import json
 import colorsys
 
 def show_knots(idx, knots_info, dir, save=True):
+    # Annotate all the images in /images using exported pixels from images/knots_info.json
     image_filename = "{0:06d}_rgb.png".format(idx)
     img = cv2.imread('{}/{}'.format(dir, image_filename))
     pixels = knots_info[str(idx)]
     pixels = [i[0] for i in pixels]
     vis = img.copy()
     print("Annotating %06d"%idx)
-    for i, (u, v) in enumerate(pixels[:int(len(pixels)/2)]):
+    for i, (u, v) in enumerate(pixels):
         (r, g, b) = colorsys.hsv_to_rgb(float(i)/len(pixels), 1.0, 1.0)
         R, G, B = int(255 * r), int(255 * g), int(255 * b)
         cv2.circle(vis,(int(u), int(v)), 1, (R, G, B), -1)

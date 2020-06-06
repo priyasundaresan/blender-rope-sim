@@ -47,8 +47,8 @@ def set_render_settings(engine, render_size):
         scene.view_settings.view_transform = 'Raw'
         scene.eevee.taa_render_samples = 1
 
-def annotate(frame, mapping, num_annotations, knot_only=True, end_only=False, offset=1):
-    '''Gets num_annotations annotations of cloth image at provided frame #, adds to mapping'''
+def annotate(frame, mapping, num_annotations, knot_only=False, end_only=False, offset=1):
+    # Export pixelwise annotations for rope at current frame; if knot-only, only annotate the knot, if end_only, only annotate the ends of the rope, if both are false, annotate the full rope
     scene = bpy.context.scene
     render_scale = scene.render.resolution_percentage / 100
     render_size = (
@@ -88,7 +88,7 @@ def toggle_animation(obj, frame, animate):
     obj.keyframe_insert(data_path="rigid_body.kinematic", frame=frame)
 
 def take_action(obj, frame, action_vec, animate=True):
-    # Keyframes a displacement for obj given by action_vec at given frame
+    # Wrapper for taking an action given by action_vec on the object (cylinder)
     curr_frame = bpy.context.scene.frame_current
     dx,dy,dz = action_vec
     if animate != obj.rigid_body.kinematic:
@@ -102,7 +102,6 @@ def take_action(obj, frame, action_vec, animate=True):
     obj.keyframe_insert(data_path="location", frame=frame)
 
 def find_knot(num_segments, chain=False, depth_thresh=0.4, idx_thresh=3, pull_offset=3):
-
     piece = "Torus" if chain else "Cylinder"
     cache = {}
 
@@ -136,12 +135,11 @@ def find_knot(num_segments, chain=False, depth_thresh=0.4, idx_thresh=3, pull_of
             Z_OFF = 2
             action_vec = [SCALE_X*dx, SCALE_Y*dy, Z_OFF] 
             return pull_idx, hold_idx, action_vec # Found! Return the pull, hold, and action
-    return 16, 25, [0,0,0] # Didn't find a pull/hold
+    return 16, 25, [0,0,0] # Didn't find a pull/hold, 16 and 25 are arbitrary cylinder indices
 
 def randomize_camera():
     pass
     #bpy.context.scene.camera.rotation_euler = (0, 0, np.random.uniform(-np.pi/4, np.pi/4))
-
 
 def render_frame(frame, render_offset=0, step=2, num_annotations=300, filename="%06d_rgb.png", folder="images", annot=True, mapping=None):
     # Renders a single frame in a sequence (if frame%step == 0)
@@ -158,7 +156,6 @@ def render_frame(frame, render_offset=0, step=2, num_annotations=300, filename="
             annotate(index, mapping, num_annotations)
 
 def render_mask(mask_filename, depth_filename, index):
-    # NOTE: this method is still in progress
     scene = bpy.context.scene
     saved = scene.render.engine
     scene.render.engine = 'BLENDER_EEVEE'
@@ -194,6 +191,7 @@ def render_mask(mask_filename, depth_filename, index):
     scene.use_nodes = False
 
 def take_undo_action_oracle(params, start_frame, render=False, render_offset=0, annot=True, mapping=None):
+    # Takes an action to loosen the knot using ground truth info
     piece = "Cylinder"
     pull_idx, hold_idx, action_vec = find_knot(50)
     action_vec = np.array(action_vec) + np.random.uniform(-0.5, 0.5, 3)
@@ -228,7 +226,7 @@ def take_undo_action_oracle(params, start_frame, render=False, render_offset=0, 
     return end_frame+settle_time, render_offset
 
 def reidemeister(params, start_frame,render=False, render_offset=0, annot=True, mapping=None):
-
+    # Straightens out the rope
     piece = "Cylinder"
     last = params["num_segments"]-1
     end1 = get_piece(piece, -1)
@@ -254,8 +252,8 @@ def reidemeister(params, start_frame,render=False, render_offset=0, annot=True, 
     return end_frame
 
 def generate_dataset(params, iters=1, chain=False, render=False):
-
-    set_animation_settings(15000)
+    # Generates a dataset of rope renderings
+    set_animation_settings(15000) # Cache length to use for simulation 
     piece = "Cylinder"
     last = params["num_segments"]-1
     mapping = {}
@@ -264,12 +262,15 @@ def generate_dataset(params, iters=1, chain=False, render=False):
     num_loosens = 5 # For each knot, we can do num_loosens loosening actions
     for i in range(iters):
         num_knots = 1
+        # Tie a knot
         if i%2==0:
             knot_end_frame = knots.tie_pretzel_knot(params, render=False)
         elif i%2==1:
             knot_end_frame = knots.tie_figure_eight(params, render=False)
-        reid_end_frame = reidemeister(params, knot_end_frame, render=False, mapping=mapping) # For generating knots, we don't need to render the reid frames
+        # Straighten rope out
+        reid_end_frame = reidemeister(params, knot_end_frame, render=False, mapping=mapping) 
         render_offset += reid_end_frame
+        # Loosen the knot
         loosen_start = reid_end_frame
         for i in range(num_loosens):
             loosen_end_frame, offset = take_undo_action_oracle(params, loosen_start, render=render, render_offset=render_offset, mapping=mapping)
@@ -280,7 +281,7 @@ def generate_dataset(params, iters=1, chain=False, render=False):
         bpy.context.scene.frame_set(0)
         for a in bpy.data.actions:
             bpy.data.actions.remove(a)
-
+    # Export pixelwise annotations
     with open("./images/knots_info.json", 'w') as outfile:
         json.dump(mapping, outfile, sort_keys=True, indent=2)
 
@@ -294,6 +295,6 @@ if __name__ == '__main__':
     set_render_settings(params["engine"],(params["render_width"],params["render_height"]))
     make_table(params)
     start = time.time()
-    generate_dataset(params, iters=2, render=True)
+    generate_dataset(params, iters=1, render=True)
     end = time.time()
     print("Time:", end-start)
