@@ -11,7 +11,7 @@
 
 * We developed this repo as an extension to our ICRA 2020 paper after realizing the need for an easy-to-use dynamic simulator for deformable objects. If you are interested, please check it out here:
 #### ["Learning Rope Manipulation Policies Using Dense Object Descriptors Trained on Synthetic Depth Data"](https://sites.google.com/view/ropemanipdescriptors/home)
-_Priya Sundaresan, Jennifer Grannen, Brijen Thananjeyan, Ashwin Balakrishna, Michael Laskey, Kevin Stone, Joseph E. Gonzalez, Ken Goldberg_**
+#### Priya Sundaresan, Jennifer Grannen, Brijen Thananjeyan, Ashwin Balakrishna, Michael Laskey, Kevin Stone, Joseph E. Gonzalez, Ken Goldberg
 
 
 ![Knot Gif](knot.gif)
