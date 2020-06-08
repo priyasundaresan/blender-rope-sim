@@ -33,6 +33,7 @@ def clear_scene():
     bpy.ops.object.delete()
 
 def make_capsule_rope(params):
+    '''Make a rigid rope composed of capsules linked by rigid body constraints'''
     radius = params["segment_radius"]
     rope_length = radius * params["num_segments"]
     num_segments = int(rope_length / radius)
@@ -57,6 +58,7 @@ def make_capsule_rope(params):
     link0.rigid_body.friction = link_friction
     link0.rigid_body.linear_damping = params["linear_damping"]
     link0.rigid_body.angular_damping = params["angular_damping"] # NOTE: this makes the rope a lot less wiggly
+    # These are simulation parameters that seemed to work well for simulation speed & collision handling
     bpy.context.scene.rigidbody_world.steps_per_second = 120
     bpy.context.scene.rigidbody_world.solver_iterations = 20
     for i in range(num_segments-1):
@@ -68,6 +70,7 @@ def make_capsule_rope(params):
     return links
 
 def createNewBone(obj, new_bone_name, head, tail):
+    '''A helper function to create armature'''
     bpy.ops.object.editmode_toggle()
     bpy.ops.armature.bone_primitive_add(name=new_bone_name)
     new_edit_bone = obj.data.edit_bones[new_bone_name]
@@ -80,6 +83,7 @@ def createNewBone(obj, new_bone_name, head, tail):
     constraint.target = bpy.data.objects[target_obj_name]
 
 def make_braid_rig(params, bezier):
+    '''Braided rope armature'''
     n = params["num_segments"]
     radius = params["segment_radius"]
     bpy.ops.mesh.primitive_circle_add(location=(0,0,0))
@@ -90,7 +94,6 @@ def make_braid_rig(params, bezier):
     bpy.ops.transform.translate(value=(radius, 0, 0))
     bpy.ops.object.mode_set(mode='OBJECT')
     num_chords = 4
-    # num_chords = 2
     for i in range(1, num_chords):
         bpy.ops.object.duplicate_move(OBJECT_OT_duplicate=None, TRANSFORM_OT_translate=None)
         ob = bpy.context.active_object
@@ -109,6 +112,7 @@ def make_braid_rig(params, bezier):
     return rope
 
 def make_cable_rig(params, bezier):
+    '''Cable armature'''
     bpy.ops.object.modifier_add(type='CURVE')
     bpy.ops.curve.primitive_bezier_circle_add(radius=0.02)
     bezier.data.bevel_object = bpy.data.objects["BezierCircle"]
@@ -116,6 +120,7 @@ def make_cable_rig(params, bezier):
     return bezier
 
 def rig_rope(params, mode):
+    '''Adds rig (either braid or cable), hides capsules'''
     bpy.ops.object.armature_add(enter_editmode=False, location=(0, 0, 0))
     arm = bpy.context.object
     n = params["num_segments"]
@@ -131,7 +136,6 @@ def rig_rope(params, mode):
     bpy.ops.curve.select_all(action='SELECT')
     bpy.ops.curve.handle_type_set(type='VECTOR')
     bpy.ops.curve.handle_type_set(type='AUTOMATIC')
-    # NOTE: it segfaults for num_control_points > 20 for the braided rope!!
     num_control_points = 40 # Tune this
     bpy.ops.curve.subdivide(number_cuts=num_control_points-2)
     bpy.ops.object.mode_set(mode='OBJECT')
@@ -158,14 +162,9 @@ def rig_rope(params, mode):
     else:
         rope = make_cable_rig(params, bezier)
 
-
 def add_camera_light():
     bpy.ops.object.light_add(type='SUN', radius=1, location=(0,0,0))
-    # bpy.context.scene.light = bpy.context.object
-    #bpy.ops.object.light_add(type='SUN', radius=1, location=(0,0,0), rotation=(36*np.pi/180, -65*np.pi/180, 18*np.pi/180))
     bpy.ops.object.camera_add(location=(2,0,28), rotation=(0,0,0))
-    # bpy.ops.object.camera_add(location=(2,0,30), rotation=(0,0,0))
-    #bpy.ops.object.camera_add(location=(11,-33,7.5), rotation=(radians(80), 0, radians(16.5)))
     bpy.context.scene.camera = bpy.context.object
 
 def make_table(params):
@@ -173,49 +172,8 @@ def make_table(params):
     bpy.ops.rigidbody.object_add()
     table = bpy.context.object
     table.rigid_body.type = 'PASSIVE'
-    #table.rigid_body.friction = 0.7
     table.rigid_body.friction = 0.8
     bpy.ops.object.select_all(action='DESELECT')
-
-def tie_knot_with_fixture(end, fixture):
-    end.rigid_body.kinematic = True
-    end.keyframe_insert(data_path="location", frame=1)
-    end.keyframe_insert(data_path="rotation_euler", frame=1)
-
-    # Create a sequence of [ frame, angle, location ] for the end
-    # we're moving to tie the knot.
-    key_frames = [
-        [ 20, -160, (-12, -1.5, -2) ],
-        [ 80,  -160, (0, -1.5, -3.0) ],
-        [ 110, -180, (4, -0.75, -3) ],
-        [ 120, -270, (4, 0, -3) ],
-        [ 130, -360, (4, 1, -3) ],
-        [ 180, -450, (0, 1, -3) ],
-        [ 200, -360, (0, -1, -3) ],
-        [ 250, -360, (0, -3, -3) ],
-        [ 330, -360, (0, -3, 14) ] ]
-
-    # Apply the sequence as a set of keyframes to the end of the rope
-    # we're pulling.
-    for fno, rot, loc in key_frames:
-        bpy.context.scene.frame_current = fno
-        end.location = loc
-        end.rotation_euler = (rot*pi/180, 90*pi/180, 0)
-        end.keyframe_insert(data_path="location", frame=fno)
-        end.keyframe_insert(data_path="rotation_euler", frame=fno)
-
-    # move the fixture out of the way at frames 250 to 270
-    bpy.context.scene.frame_current = 250
-    fixture.keyframe_insert(data_path="location", frame=250)
-    fixture.keyframe_insert(data_path="rotation_euler", frame=250)
-    bpy.context.scene.frame_current = 270
-    fixture.location = (0, 4, -1.5)
-    fixture.rotation_euler = (radians(30), 0, 0)
-    fixture.keyframe_insert(data_path="location", frame=270)
-    fixture.keyframe_insert(data_path="rotation_euler", frame=270)
-
-    # reset blender to show the first frame
-    bpy.context.scene.frame_current = 1
 
 if __name__ == '__main__':
     with open("rigidbody_params.json", "r") as f:

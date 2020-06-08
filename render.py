@@ -11,7 +11,7 @@ from sklearn.neighbors import NearestNeighbors
 import knots
 
 def set_animation_settings(anim_end):
-    # Sets up the animation to run till frame anim_end (otherwise default terminates @ 250)
+    # Sets up the animation cache to run till frame anim_end (otherwise default terminates @ 250)
     scene = bpy.context.scene
     scene.frame_end = anim_end
     scene.rigidbody_world.point_cache.frame_end = anim_end
@@ -47,7 +47,7 @@ def set_render_settings(engine, render_size):
         scene.view_settings.view_transform = 'Raw'
         scene.eevee.taa_render_samples = 1
 
-def annotate(frame, mapping, num_annotations, knot_only=False, end_only=False, offset=1):
+def annotate(frame, mapping, num_annotations, knot_only=True, end_only=False, offset=1):
     # Export pixelwise annotations for rope at current frame; if knot-only, only annotate the knot, if end_only, only annotate the ends of the rope, if both are false, annotate the full rope
     scene = bpy.context.scene
     render_scale = scene.render.resolution_percentage / 100
@@ -67,7 +67,7 @@ def annotate(frame, mapping, num_annotations, knot_only=False, end_only=False, o
     for i in indices:
         cyl = get_piece("Cylinder", i if i != 0 else -1)
         cyl_verts = list(cyl.data.vertices)
-        step_size = len(indices)*len(cyl_verts)//num_annotations
+        step_size = max(len(indices)*len(cyl_verts)//num_annotations, 1)
         vertex_coords = [cyl.matrix_world @ v.co for v in cyl_verts][::step_size]
         for i in range(len(vertex_coords)):
             v = vertex_coords[i]
@@ -295,6 +295,6 @@ if __name__ == '__main__':
     set_render_settings(params["engine"],(params["render_width"],params["render_height"]))
     make_table(params)
     start = time.time()
-    generate_dataset(params, iters=1, render=True)
+    generate_dataset(params, iters=2, render=True)
     end = time.time()
     print("Time:", end-start)
