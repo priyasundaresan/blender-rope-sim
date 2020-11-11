@@ -9,10 +9,10 @@
   * `vis.py`: visualizes annotations on rendered images and dumps them into `annotated`
   * `data`: contains the relevant capsule mesh for modelling the rope; can be updated later with other relevant meshes, textures, etc. to model more varieties of rope
 
-* We developed this repo as an extension to our ICRA 2020 paper after realizing the need for an easy-to-use dynamic simulator for deformable objects. If you are interested, please check it out here:
-#### ["Learning Rope Manipulation Policies Using Dense Object Descriptors Trained on Synthetic Depth Data"](https://sites.google.com/view/ropemanipdescriptors/home)
-#### Priya Sundaresan, Jennifer Grannen, Brijen Thananjeyan, Ashwin Balakrishna, Michael Laskey, Kevin Stone, Joseph E. Gonzalez, Ken Goldberg
+* We developed this repo as a test bed for our CoRL 2020 paper after realizing the need for an easy-to-use dynamic simulator for deformable objects. If you are interested, please check it out here:
+#### ["Untangling Dense Knots by Learning Task-Relevant Keypoints"](https://sites.google.com/berkeley.edu/corl2020ropeuntangling/home)
 
+#### Jennifer Grannen*, Priya Sundaresan*, Brijen Thananjeyan, Jeffrey Ichnowski, Ashwin Balakrishna, Minho Hwang, Vainavi Viswanath, Michael Laskey, Joseph E. Gonzalez, Ken Goldberg
 
 ![Knot Gif](knot.gif)
   
